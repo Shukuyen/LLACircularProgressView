@@ -37,4 +37,10 @@
  */
 - (void)setProgress:(float)progress duration:(NSTimeInterval)duration completion:(void(^)(LLACircularProgressView *progressView))completion;
 
+/**
+ + Set icon in the center of the view.
+ + */
+- (void)setIcon:(UIImage *)icon;
+- (void)setIcon:(UIImage *)icon animated:(BOOL)animated;
+
 @end

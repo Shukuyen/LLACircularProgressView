@@ -13,6 +13,7 @@
 @interface LLACircularProgressView ()
 
 @property (nonatomic, strong) CAShapeLayer *progressLayer;
+@property (nonatomic, strong) UIImageView *imageView;
 
 @end
 
@@ -63,12 +64,14 @@
     CGContextSetStrokeColorWithColor(ctx, self.progressTintColor.CGColor);
     CGContextStrokeEllipseInRect(ctx, CGRectInset(self.bounds, 1, 1));
     
-    CGRect stopRect;
-    stopRect.origin.x = CGRectGetMidX(self.bounds) - self.bounds.size.width / 8;
-    stopRect.origin.y = CGRectGetMidY(self.bounds) - self.bounds.size.height / 8;
-    stopRect.size.width = self.bounds.size.width / 4;
-    stopRect.size.height = self.bounds.size.height / 4;
-    CGContextFillRect(ctx, CGRectIntegral(stopRect));
+    if (!self.imageView.image) {
+        CGRect stopRect;
+        stopRect.origin.x = CGRectGetMidX(self.bounds) - self.bounds.size.width / 8;
+        stopRect.origin.y = CGRectGetMidY(self.bounds) - self.bounds.size.height / 8;
+        stopRect.size.width = self.bounds.size.width / 4;
+        stopRect.size.height = self.bounds.size.height / 4;
+        CGContextFillRect(ctx, CGRectIntegral(stopRect));        
+    }
 }
 
 #pragma mark - Accessors
@@ -121,6 +124,28 @@
 
     _progress = progress;
 
+}
+
+- (void)setIcon:(UIImage *)icon
+{
+    [self setIcon:icon animated:NO];
+}
+
+- (void)setIcon:(UIImage *)icon animated:(BOOL)animated
+{
+    if (!self.imageView) {
+        self.imageView = [[UIImageView alloc] initWithFrame:self.bounds];
+        [self addSubview:self.imageView];
+    }
+    
+    [UIView animateWithDuration:animated ? 0.3f : 0.0f delay:0.0f options:UIViewAnimationOptionCurveEaseInOut animations:^{
+        self.imageView.alpha = 0.0f;
+    } completion:^(BOOL finished) {
+        [self.imageView setImage:icon];
+        [UIView animateWithDuration:animated ? 0.3f : 0.0f delay:0.0f options:UIViewAnimationOptionCurveEaseInOut animations:^{
+            self.imageView.alpha = 1.0f;
+        } completion:NULL];
+    }];
 }
 
 - (UIColor *)progressTintColor {
