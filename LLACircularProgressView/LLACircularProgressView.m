@@ -38,6 +38,7 @@
 - (void)initialize {
     self.contentMode = UIViewContentModeRedraw;
     self.backgroundColor = [UIColor whiteColor];
+    self.padding = 5.0;
 
     _progressTintColor = [UIColor blackColor];
     
@@ -62,7 +63,7 @@
 
     CGContextSetFillColorWithColor(ctx, self.progressTintColor.CGColor);
     CGContextSetStrokeColorWithColor(ctx, self.progressTintColor.CGColor);
-    CGContextStrokeEllipseInRect(ctx, CGRectInset(self.bounds, 1, 1));
+    CGContextStrokeEllipseInRect(ctx, CGRectInset(self.bounds, self.padding, self.padding));
     
     if (!self.imageView.image) {
         CGRect stopRect;
@@ -184,7 +185,7 @@
 
 - (void)updatePath {
     CGPoint center = CGPointMake(CGRectGetMidX(self.bounds), CGRectGetMidY(self.bounds));
-    self.progressLayer.path = [UIBezierPath bezierPathWithArcCenter:center radius:self.bounds.size.width / 2 - 2 startAngle:-M_PI_2 endAngle:-M_PI_2 + 2 * M_PI clockwise:YES].CGPath;
+    self.progressLayer.path = [UIBezierPath bezierPathWithArcCenter:center radius:self.bounds.size.width / 2 - (self.padding - 1) startAngle:-M_PI_2 endAngle:-M_PI_2 + 2 * M_PI clockwise:YES].CGPath;
 }
 
 @end

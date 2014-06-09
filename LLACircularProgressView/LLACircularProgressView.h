@@ -21,6 +21,11 @@
 @property (nonatomic) float progress;
 
 /**
+ Padding of the circle to the sides
+ */
+@property (nonatomic) float padding;
+
+/**
  A tintColor replacement for pre-iOS7 SDK versions. On iOS7 and higher use `tintColor` for setting this.
  
  The default is the parent view's `tintColor` or a black color on versions lower than iOS7.
