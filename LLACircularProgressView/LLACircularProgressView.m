@@ -142,6 +142,7 @@
 {
     if (!self.imageView) {
         self.imageView = [[UIImageView alloc] initWithFrame:self.bounds];
+        self.imageView.contentMode = UIViewContentModeCenter;
         [self addSubview:self.imageView];
     }
     
@@ -151,7 +152,9 @@
         [self.imageView setImage:icon];
         [UIView animateWithDuration:animated ? 0.3f : 0.0f delay:0.0f options:UIViewAnimationOptionCurveEaseInOut animations:^{
             self.imageView.alpha = 1.0f;
-        } completion:NULL];
+        } completion:^(BOOL finished) {
+            [self setNeedsDisplay];
+        }];
     }];
 }
 
