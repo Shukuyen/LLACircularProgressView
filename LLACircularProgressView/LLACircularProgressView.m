@@ -54,23 +54,29 @@
     [super layoutSubviews];
     
     self.progressLayer.frame = self.bounds;
-
+    
     [self updatePath];
 }
 
 - (void)drawRect:(CGRect)rect {
+    CGFloat diameter = MIN(CGRectGetWidth(self.bounds), CGRectGetHeight(self.bounds));
+    CGRect circleBounds = CGRectMake(CGRectGetMidX(self.bounds) - (diameter / 2),
+                                     CGRectGetMidY(self.bounds) - (diameter / 2),
+                                     diameter,
+                                     diameter);
+
     CGContextRef ctx = UIGraphicsGetCurrentContext();
 
     CGContextSetFillColorWithColor(ctx, self.progressTintColor.CGColor);
     CGContextSetStrokeColorWithColor(ctx, self.progressTintColor.CGColor);
-    CGContextStrokeEllipseInRect(ctx, CGRectInset(self.bounds, self.padding, self.padding));
+    CGContextStrokeEllipseInRect(ctx, CGRectInset(circleBounds, self.padding, self.padding));
     
     if (!self.imageView.image) {
         CGRect stopRect;
-        stopRect.origin.x = CGRectGetMidX(self.bounds) - self.bounds.size.width / 8;
-        stopRect.origin.y = CGRectGetMidY(self.bounds) - self.bounds.size.height / 8;
-        stopRect.size.width = self.bounds.size.width / 4;
-        stopRect.size.height = self.bounds.size.height / 4;
+        stopRect.origin.x = CGRectGetMidX(circleBounds) - circleBounds.size.width / 8;
+        stopRect.origin.y = CGRectGetMidY(circleBounds) - circleBounds.size.height / 8;
+        stopRect.size.width = circleBounds.size.width / 4;
+        stopRect.size.height = circleBounds.size.height / 4;
         CGContextFillRect(ctx, CGRectIntegral(stopRect));        
     }
 }
@@ -185,7 +191,8 @@
 
 - (void)updatePath {
     CGPoint center = CGPointMake(CGRectGetMidX(self.bounds), CGRectGetMidY(self.bounds));
-    self.progressLayer.path = [UIBezierPath bezierPathWithArcCenter:center radius:self.bounds.size.width / 2 - (self.padding - 1) startAngle:-M_PI_2 endAngle:-M_PI_2 + 2 * M_PI clockwise:YES].CGPath;
+    CGFloat radius = MIN(CGRectGetWidth(self.bounds), CGRectGetHeight(self.bounds)) / 2 - (self.padding - 1);
+    self.progressLayer.path = [UIBezierPath bezierPathWithArcCenter:center radius:radius startAngle:-M_PI_2 endAngle:-M_PI_2 + 2 * M_PI clockwise:YES].CGPath;
 }
 
 @end
