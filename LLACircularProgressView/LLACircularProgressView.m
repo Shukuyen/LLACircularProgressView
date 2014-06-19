@@ -38,7 +38,6 @@
 - (void)initialize {
     self.contentMode = UIViewContentModeRedraw;
     self.backgroundColor = [UIColor whiteColor];
-    self.padding = 5.0;
 
     _progressTintColor = [UIColor blackColor];
     
@@ -194,7 +193,7 @@
 
 - (void)updatePath {
     CGPoint center = CGPointMake(CGRectGetMidX(self.bounds), CGRectGetMidY(self.bounds));
-    CGFloat radius = MIN(CGRectGetWidth(self.bounds), CGRectGetHeight(self.bounds)) / 2 - (self.padding - 1);
+    CGFloat radius = (MIN(CGRectGetWidth(self.bounds), CGRectGetHeight(self.bounds)) / 2) - 2 - self.padding;
     self.progressLayer.path = [UIBezierPath bezierPathWithArcCenter:center radius:radius startAngle:-M_PI_2 endAngle:-M_PI_2 + 2 * M_PI clockwise:YES].CGPath;
 }
 
