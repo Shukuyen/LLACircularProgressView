@@ -40,6 +40,7 @@
     self.backgroundColor = [UIColor whiteColor];
 
     _progressTintColor = [UIColor blackColor];
+    _ringColor = [UIColor blackColor];
     
     _progressLayer = [[CAShapeLayer alloc] init];
     _progressLayer.strokeColor = self.progressTintColor.CGColor;
@@ -65,10 +66,14 @@
                                      diameter);
 
     CGContextRef ctx = UIGraphicsGetCurrentContext();
-
+    if (self.ringColor) {
+        CGContextSetFillColorWithColor(ctx, self.ringColor.CGColor);
+        CGContextSetStrokeColorWithColor(ctx, self.ringColor.CGColor);
+        CGContextStrokeEllipseInRect(ctx, CGRectInset(circleBounds, self.padding, self.padding));
+    }
+    
     CGContextSetFillColorWithColor(ctx, self.progressTintColor.CGColor);
     CGContextSetStrokeColorWithColor(ctx, self.progressTintColor.CGColor);
-    CGContextStrokeEllipseInRect(ctx, CGRectInset(circleBounds, self.padding, self.padding));
     
     if (!self.imageView.image) {
         CGRect stopRect;

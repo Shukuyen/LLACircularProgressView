@@ -33,6 +33,12 @@
 @property (nonatomic, strong) UIColor *progressTintColor;
 
 /**
+ Color of the outer ring. If this is nil the outer ring will not be drawn.
+ Default is black.
+ */
+@property (nonatomic, strong) UIColor *ringColor;
+
+/**
  Set the progress of the circular view in an animated manner. Only valid for values between `0` and `1`.
  */
 - (void)setProgress:(float)progress animated:(BOOL)animated;
@@ -47,5 +53,10 @@
  + */
 - (void)setIcon:(UIImage *)icon;
 - (void)setIcon:(UIImage *)icon animated:(BOOL)animated;
+
+/**
+ Set a background image 
+ */
+- (void)setBackgroundImage:(UIImage *)image;
 
 @end
