@@ -26,6 +26,11 @@
 @property (nonatomic) float padding;
 
 /**
+ Line width of the progress bar
+ */
+@property (nonatomic) CGFloat progressLineWidth;
+
+/**
  A tintColor replacement for pre-iOS7 SDK versions. On iOS7 and higher use `tintColor` for setting this.
  
  The default is the parent view's `tintColor` or a black color on versions lower than iOS7.

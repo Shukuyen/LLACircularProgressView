@@ -147,7 +147,7 @@
 {
     if (!self.backgroundImageLayer) {
         _backgroundImageLayer = [[CALayer alloc] init];
-        [self.layer addSublayer:_backgroundImageLayer];
+        [self.layer insertSublayer:_backgroundImageLayer atIndex:0];
     }
 
     _backgroundImageLayer.contents = (id)icon.CGImage;
@@ -187,6 +187,13 @@
     [self setNeedsDisplay];
 }
 #endif
+
+- (void)setProgressLineWidth:(CGFloat)progressLineWidth
+{
+    _progressLineWidth = progressLineWidth;
+    
+    self.progressLayer.lineWidth = progressLineWidth;
+}
 
 #pragma mark - Private
 
