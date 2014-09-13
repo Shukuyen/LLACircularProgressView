@@ -12,6 +12,7 @@
 
 @interface LLACircularProgressView ()
 
+@property (nonatomic, strong) CALayer *backgroundImageLayer;
 @property (nonatomic, strong) CAShapeLayer *progressLayer;
 @property (nonatomic, strong) UIImageView *imageView;
 
@@ -144,22 +145,15 @@
 
 - (void)setIcon:(UIImage *)icon animated:(BOOL)animated
 {
-    if (!self.imageView) {
-        self.imageView = [[UIImageView alloc] initWithFrame:self.bounds];
-        self.imageView.contentMode = UIViewContentModeCenter;
-        [self addSubview:self.imageView];
+    if (!self.backgroundImageLayer) {
+        _backgroundImageLayer = [[CALayer alloc] init];
+        [self.layer addSublayer:_backgroundImageLayer];
     }
-    
-    [UIView animateWithDuration:animated ? 0.3f : 0.0f delay:0.0f options:UIViewAnimationOptionCurveEaseInOut animations:^{
-        self.imageView.alpha = 0.0f;
-    } completion:^(BOOL finished) {
-        [self.imageView setImage:icon];
-        [UIView animateWithDuration:animated ? 0.3f : 0.0f delay:0.0f options:UIViewAnimationOptionCurveEaseInOut animations:^{
-            self.imageView.alpha = 1.0f;
-        } completion:^(BOOL finished) {
-            [self setNeedsDisplay];
-        }];
-    }];
+
+    _backgroundImageLayer.contents = (id)icon.CGImage;
+    _backgroundImageLayer.frame = CGRectMake(0, 0, icon.size.width, icon.size.height);
+    _backgroundImageLayer.anchorPoint = CGPointMake(0.5, 0.5);
+    _backgroundImageLayer.position = (CGPoint){CGRectGetMidX(self.layer.bounds), CGRectGetMidY(self.layer.bounds)};
 }
 
 - (UIColor *)progressTintColor {
